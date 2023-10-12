@@ -20,12 +20,18 @@ namespace Vidly.Controllers.Api
         //GET /api/movies
         public IHttpActionResult GetMovies()
         {
+            var movies = _context.Movies.ToList();
             return Ok();
         }
 
         //GET /api/movies/1
         public IHttpActionResult GetMovie(int id)
         {
+            var movie = _context.Movies.SingleOrDefault(m => m.Id == id);
+
+            if (movie == null)
+                return NotFound();
+
             return Ok();
         }
 
@@ -33,6 +39,12 @@ namespace Vidly.Controllers.Api
         [HttpPost]
         public IHttpActionResult CreateMovie(Movie movie)
         {
+            if (!ModelState.IsValid)
+                return BadRequest();
+
+            _context.Movies.Add(movie);
+            _context.SaveChanges();
+
             return Ok();
         }
 
@@ -40,6 +52,20 @@ namespace Vidly.Controllers.Api
         [HttpPut]
         public IHttpActionResult UpdateMovie(int id, Movie movie)
         {
+            if (!ModelState.IsValid)
+                return BadRequest();
+
+            var movieInDb = _context.Movies.SingleOrDefault(m => m.Id == id);
+
+            if (movieInDb == null)
+                return NotFound();
+
+            movieInDb.Name = movie.Name;
+            movieInDb.ReleaseDate = movie.ReleaseDate;
+            movie.GenreId = movie.GenreId;
+            movie.NumberInStock = movie.NumberInStock;
+
+            _context.SaveChanges();
             return Ok();
         }
 
@@ -47,6 +73,14 @@ namespace Vidly.Controllers.Api
         [HttpDelete]
         public IHttpActionResult DeleteMovie(int id)
         {
+            var movieInDb = _context.Movies.SingleOrDefault(m => m.Id == id);
+
+            if (movieInDb == null)
+                return NotFound();
+
+            _context.Movies.Remove(movieInDb);
+            _context.SaveChanges();
+
             return Ok();
         }
     }
