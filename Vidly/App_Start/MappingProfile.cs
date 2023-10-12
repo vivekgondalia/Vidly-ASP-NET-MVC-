@@ -13,12 +13,16 @@ namespace Vidly.App_Start
         //Automapper - A Convention Based Mappingn Tool. Uses property name.
         public MappingProfile()
         {
-            Mapper.CreateMap<Customer, CustomerDto>()
+            //Domain Model to Dto
+            Mapper.CreateMap<Customer, CustomerDto>();
+            Mapper.CreateMap<Movie, MovieDto>();
+
+            //Dto to Domain Model
+            Mapper.CreateMap<CustomerDto, Customer>()
                 .ForMember(c => c.Id, opt => opt.Ignore());
-            Mapper.CreateMap<CustomerDto, Customer>();
-            Mapper.CreateMap<Movie, MovieDto>()
-                .ForMember(m => m.Id, opt => opt.Ignore());
-            Mapper.CreateMap<MovieDto, Movie>();
+            Mapper.CreateMap<MovieDto, Movie>()
+               .ForMember(m => m.Id, opt => opt.Ignore());
+           ;
         }
     }
 }
