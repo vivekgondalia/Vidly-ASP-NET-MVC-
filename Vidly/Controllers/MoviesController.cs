@@ -26,9 +26,8 @@ namespace Vidly.Controllers
 
         public ActionResult Index(int? pageIndex, string sortBy)
         {
-            var movies = _context.Movies.Include(m => m.Genre).ToList(); 
-
-            return View(movies);
+            //var moviesDtos = _context.Movies.Include(m => m.Genre).ToList(); 
+            return View();
         }
 
         public ActionResult New()
