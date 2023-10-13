@@ -29,8 +29,8 @@ namespace Vidly.Controllers
         {
             //Deferred Execution - _context.Customers - Gets executed in the View
             //.ToList() - executes below
-            var customers = _context.Customers.Include(c => c.MembershipType).ToList();
-            return View(customers);
+            //var customers = _context.Customers.Include(c => c.MembershipType).ToList();
+            return View();
         }
 
         public ActionResult New()
